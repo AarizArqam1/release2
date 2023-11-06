@@ -3,7 +3,7 @@ package com.techloyce.sdk.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.techloyce.sfsdk.Purchases;
+import com.techloyce.sdk.Purchases;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -261,47 +261,47 @@ public class Products {
     public void setPrice(String price) {
         this.price = price;
     }
-    public interface PlanListener {
-        void onComplete(List<Plans> planList);
-    }
+//    public interface PlanListener {
+//        void onComplete(List<Plans> planList);
+//    }
 
-    public void getPlan(PlanListener planListener){
-        final String idValue = this.id;
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(new Runnable() {
-
-            @Override
-            public void run() {
-
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url("https://devtest.dev-techloyce.com/api/v1/products/"+idValue+"/link/plans")
-                        .header("Authorization", Purchases.getInstance().getAuth())
-                        .header("Content-Type", "application/json")
-                        .get()
-                        .build();
-
-                try {
-                    Response response = client.newCall(request).execute();
-
-                    if (response.isSuccessful()) {
-                        JSONObject jsonResponse = new JSONObject(response.body().string());
-                        List<Plans> planList = PlanWrapper.getAll(jsonResponse.toString());
-                        //Toast.makeText(context, productsList.get(0).getId(), Toast.LENGTH_SHORT).show();
-                        planListener.onComplete(planList);
-                        // Handle the successful response here
-                    } else {
-                        // Handle error response here (non-200 status code)
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    // Handle exceptions here
-
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-            }});
-
-    }
+//    public void getPlan(PlanListener planListener){
+//        final String idValue = this.id;
+//        ExecutorService executorService = Executors.newSingleThreadExecutor();
+//        executorService.execute(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//
+//                OkHttpClient client = new OkHttpClient();
+//                Request request = new Request.Builder()
+//                        .url("https://devtest.dev-techloyce.com/api/v1/products/"+idValue+"/link/plans")
+//                        .header("Authorization", Purchases.getInstance().getAuth())
+//                        .header("Content-Type", "application/json")
+//                        .get()
+//                        .build();
+//
+//                try {
+//                    Response response = client.newCall(request).execute();
+//
+//                    if (response.isSuccessful()) {
+//                        JSONObject jsonResponse = new JSONObject(response.body().string());
+//                        List<Plans> planList = PlanWrapper.getAll(jsonResponse.toString());
+//                        //Toast.makeText(context, productsList.get(0).getId(), Toast.LENGTH_SHORT).show();
+//                        planListener.onComplete(planList);
+//                        // Handle the successful response here
+//                    } else {
+//                        // Handle error response here (non-200 status code)
+//
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    // Handle exceptions here
+//
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }});
+//
+//    }
 }
